@@ -1,0 +1,79 @@
+# Doxygen configuration for myproject.
+#
+# This file is a template consumed by CMake's configure_file(): every
+# @VARIABLE@ below is substituted with a real path when the `docs` target
+# is configured (see CMakeLists.txt). Don't run `doxygen` directly on this
+# file -- use `cmake --build build --target docs` instead, or run doxygen
+# on the generated copy in the build directory.
+
+#---------------------------------------------------------------------------
+# Project
+#---------------------------------------------------------------------------
+PROJECT_NAME           = "myproject"
+PROJECT_BRIEF          = "CPP Jumpstart template project"
+OUTPUT_DIRECTORY       = @MYPROJECT_DOCS_OUTPUT_DIR@
+STRIP_FROM_PATH        = @PROJECT_SOURCE_DIR@
+
+#---------------------------------------------------------------------------
+# Input
+#---------------------------------------------------------------------------
+INPUT                  = @PROJECT_SOURCE_DIR@/src @PROJECT_SOURCE_DIR@/README.md
+USE_MDFILE_AS_MAINPAGE = @PROJECT_SOURCE_DIR@/README.md
+RECURSIVE              = YES
+FILE_PATTERNS          = *.h *.hpp *.hh *.cpp *.cc *.md
+EXTRACT_ALL            = YES
+EXTRACT_STATIC         = YES
+EXTRACT_PRIVATE        = YES
+
+#---------------------------------------------------------------------------
+# Output formats
+#
+# Layout matches Cantera's C++ API docs (cantera.org): classic Doxygen
+# tabs + resizable treeview sidebar (not doxygen-awesome's sidebar-only
+# mode), themed with doxygen-awesome-css and a manual dark-mode toggle
+# button wired up the same way Cantera's docs/header.html does it.
+#---------------------------------------------------------------------------
+GENERATE_HTML           = YES
+GENERATE_LATEX          = NO
+GENERATE_TREEVIEW       = YES
+DISABLE_INDEX           = NO
+HTML_COLORSTYLE         = LIGHT
+SORT_MEMBER_DOCS        = NO
+HTML_HEADER             = @PROJECT_SOURCE_DIR@/docs/header.html
+
+# Doxygen's own copy-to-clipboard button duplicates the one added by
+# doxygen-awesome-fragment-copy-button.js below; keep only the latter.
+HTML_COPY_CLIPBOARD     = NO
+
+# doxygen-awesome-css theme (fetched by CMake) for a modern look, plus a
+# small local override (extra.css) -- see that file for why it's needed.
+HTML_EXTRA_STYLESHEET   = @DOXYGEN_AWESOME_CSS_DIR@/doxygen-awesome.css \
+                          @PROJECT_SOURCE_DIR@/docs/extra.css
+HTML_EXTRA_FILES        = @DOXYGEN_AWESOME_CSS_DIR@/doxygen-awesome-darkmode-toggle.js \
+                          @DOXYGEN_AWESOME_CSS_DIR@/doxygen-awesome-fragment-copy-button.js \
+                          @DOXYGEN_AWESOME_CSS_DIR@/doxygen-awesome-paragraph-link.js \
+                          @DOXYGEN_AWESOME_CSS_DIR@/doxygen-awesome-interactive-toc.js
+HTML_COLORSTYLE_HUE     = 209
+HTML_COLORSTYLE_SAT     = 255
+HTML_COLORSTYLE_GAMMA   = 113
+
+# MathJax, for rendering LaTeX-style equations in doc comments -- handy
+# for the numerical/scientific code this template tends to be used for.
+USE_MATHJAX             = YES
+MATHJAX_VERSION         = MathJax_2
+
+#---------------------------------------------------------------------------
+# Diagrams / misc
+#
+# Requires Graphviz's `dot` on PATH; file-level #include dependency
+# graphs are generated for each documented file.
+#---------------------------------------------------------------------------
+HAVE_DOT                = @MYPROJECT_HAVE_DOT@
+DOT_IMAGE_FORMAT        = svg
+INTERACTIVE_SVG         = YES
+INCLUDE_GRAPH           = YES
+INCLUDED_BY_GRAPH       = YES
+CLASS_GRAPH             = YES
+COLLABORATION_GRAPH     = YES
+QUIET                    = YES
+WARN_IF_UNDOCUMENTED     = YES

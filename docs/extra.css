@@ -1,0 +1,17 @@
+/*
+ * Small fixups on top of doxygen-awesome-css.
+ *
+ * Doxygen 1.15 renders inline code as `<span class="tt">` rather than the
+ * `<code>` element doxygen-awesome-css themes, and doxygen.css gives that
+ * span a hardcoded light background with no explicit text color. In dark
+ * mode the inherited (light) text then sits on that same light
+ * background, making inline code unreadable. Route it through
+ * doxygen-awesome-css's own code color variables instead, so it tracks
+ * both the light and dark theme.
+ */
+span.tt {
+    background-color: var(--code-background);
+    color: var(--code-foreground);
+    border-radius: 4px;
+    padding: 2px 4px;
+}

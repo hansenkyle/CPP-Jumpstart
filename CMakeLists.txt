@@ -66,3 +66,41 @@ if(MYPROJECT_BUILD_TESTS)
         target_link_options(unit_test PRIVATE --coverage)
     endif()
 endif()
+
+# --- Documentation (Doxygen) ---
+option(MYPROJECT_BUILD_DOCS "Add a 'docs' target that generates Doxygen HTML documentation" OFF)
+if(MYPROJECT_BUILD_DOCS)
+    find_package(Doxygen REQUIRED OPTIONAL_COMPONENTS dot)
+    if(Doxygen_dot_FOUND)
+        set(MYPROJECT_HAVE_DOT YES)
+    else()
+        set(MYPROJECT_HAVE_DOT NO)
+        message(WARNING "Graphviz 'dot' not found; the 'docs' target will skip dependency graphs")
+    endif()
+
+    # doxygen-awesome-css gives the generated HTML a modern look & feel.
+    FetchContent_Declare(
+        doxygen_awesome_css
+        GIT_REPOSITORY https://github.com/jothepro/doxygen-awesome-css.git
+        GIT_TAG        v2.3.4
+        SOURCE_SUBDIR  cmake-ignore   # deliberately nonexistent -- see Eigen comment above
+    )
+    FetchContent_MakeAvailable(doxygen_awesome_css)
+
+    set(MYPROJECT_DOCS_DIR ${CMAKE_SOURCE_DIR}/docs)
+    set(MYPROJECT_DOCS_OUTPUT_DIR ${CMAKE_BINARY_DIR}/docs)
+    set(DOXYGEN_AWESOME_CSS_DIR ${doxygen_awesome_css_SOURCE_DIR})
+
+    configure_file(
+        ${MYPROJECT_DOCS_DIR}/Doxyfile.in
+        ${CMAKE_BINARY_DIR}/Doxyfile
+        @ONLY
+    )
+
+    add_custom_target(docs
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Generating Doxygen documentation in ${MYPROJECT_DOCS_OUTPUT_DIR}/html"
+        VERBATIM
+    )
+endif()
