@@ -10,8 +10,8 @@ command -v gcovr >/dev/null || { echo "gcovr not found -- install with: pip inst
 
 cmake -B "$BUILD_DIR" \
     -DCMAKE_BUILD_TYPE=Debug \
-    -DLDCSD_BUILD_TESTS=ON \
-    -DLDCSD_ENABLE_COVERAGE=ON
+    -DMYPROJECT_BUILD_TESTS=ON \
+    -DMYPROJECT_ENABLE_COVERAGE=ON
 
 cmake --build "$BUILD_DIR" -j --target unit_test
 

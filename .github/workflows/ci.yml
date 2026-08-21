@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # ldcsd's CMakeLists.txt requires CMake 4.0; ubuntu-latest's apt
+      # myproject's CMakeLists.txt requires CMake 4.0; ubuntu-latest's apt
       # repo lags behind, so fetch a current CMake binary directly rather
       # than relying on the distro package.
       - name: Set up CMake
@@ -31,7 +31,7 @@ jobs:
           cmakeVersion: "^4.0.0"
 
       - name: Configure
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DLDCSD_BUILD_TESTS=ON
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DMYPROJECT_BUILD_TESTS=ON
 
       - name: Build
         run: cmake --build build -j
@@ -58,8 +58,8 @@ jobs:
         run: >
           cmake -B build-coverage
           -DCMAKE_BUILD_TYPE=Debug
-          -DLDCSD_BUILD_TESTS=ON
-          -DLDCSD_ENABLE_COVERAGE=ON
+          -DMYPROJECT_BUILD_TESTS=ON
+          -DMYPROJECT_ENABLE_COVERAGE=ON
 
       - name: Build
         run: cmake --build build-coverage -j --target unit_test
